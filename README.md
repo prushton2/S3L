@@ -68,7 +68,7 @@ The interpreter iterates over every character and check every condition. When a 
   * String Literal
     * Defining a string literal is the same as writing str == “”
     * Ex: “e” is the same as str == “e”
-  * range:
+  * Range:
     * Create a character range, like [a-z] in regex
     * Defined as range(“a-z”)
     * Valid ranges consist of:
