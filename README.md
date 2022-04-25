@@ -49,7 +49,7 @@ The interpreter iterates over every character and check every condition. When a 
   * Char:
     * The character when a where clause is true
   * \*
-    * The default selector, returns character when character is true, etc.
+    * The default selector, returns characters that match the where clause
 * Where:
   * str:
     * == comparison: Checks all characters after the current character if they match x, where x is a word.
@@ -61,6 +61,8 @@ The interpreter iterates over every character and check every condition. When a 
     * Repeat operator
     * Repeats the previous conditional
     * Ex: “eee” is the same as “e”*3
+  * _
+    * Allows any character
   * Conditional Operators
     * and, or, not, etc all work properly
   * String Literal
