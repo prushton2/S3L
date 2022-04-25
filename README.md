@@ -27,7 +27,7 @@ Examples
 
 // Maybe this, or it will only return the first character.
 ```
-> Select char where word == “Hello” from “Hello World”;
+> Select char where str == “Hello” from “Hello World”;
 ```
 \> ```H```ello World
 
