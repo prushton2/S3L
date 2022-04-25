@@ -15,7 +15,7 @@ Examples
 ```
 > Select char where str == ”l” from “Hello World”;
 ```
-He```ll```o Wor```l```d
+\> He```ll```o Wor```l```d
 ```
 > Select word where str == ”e” from “Hello World”;
 ```
