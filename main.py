@@ -1,63 +1,5 @@
-from sly import Lexer, Parser
-
-import command      as cmd
-import selectSyntax as SSyntax
-import whereSyntax  as WSyntax
-import globalSyntax as GSyntax
-
-class c_Lexer(Lexer): # primary lexer
-    tokens = {
-        B_SELECT,
-        B_FROM,
-        B_WHERE,
-        B_SEMICOLON,
-
-        S_OPEN_BRACKET,
-        S_CLOSE_BRACKET,
-
-        W_STR,
-        W_PLUS,
-        W_RANGE,
-
-        G_STAR,
-        G_STRING_LITERAL,
-        G_NUM_LITERAL,
-        G_OPEN_PARENTHESIS,
-        G_CLOSE_PARENTHESIS,
-
-    }
-    
-    # Base commands
-    B_SELECT = cmd.select.regex
-    B_FROM = cmd.from_.regex
-    B_WHERE = cmd.where.regex
-    B_SEMICOLON = cmd.semicolon.regex
-    
-    # Select commands
-    S_OPEN_BRACKET = SSyntax.openBracket.regex
-    S_CLOSE_BRACKET = SSyntax.closeBracket.regex
-
-    # Where commands
-    W_STR = WSyntax.str_.regex
-    W_PLUS = WSyntax.plus.regex
-    W_RANGE = WSyntax.range.regex
-
-    # Global commands
-    G_STAR = GSyntax.star.regex
-    G_STRING_LITERAL = GSyntax.stringLiteral.regex
-    G_NUM_LITERAL = GSyntax.numLiteral.regex
-    G_OPEN_PARENTHESIS = GSyntax.openParenthesis.regex
-    G_CLOSE_PARENTHESIS = GSyntax.closeParenthesis.regex
-
-
-    #this is important??
-    ignore = r" \t"
-
-
-# class c_Parser(Parser):
-#     tokens = c_Lexer.tokens
-
-    
+import lexer as lexer
+import cparser as parser
 
 
 def splitTokens(tokens):
@@ -71,7 +13,10 @@ def splitTokens(tokens):
 
     for token in tokens:
         
-        # print(token)
+        # remove the '"' from the string literal
+        if token.type == "G_STRING_LITERAL":
+            token.value = token.value[1:-1]
+
 
         if(token.type == "B_SEMICOLON"):
             return splitTokens
@@ -86,20 +31,21 @@ def splitTokens(tokens):
 
 
 def interpret(text):
-    lexer = c_Lexer()
-    # parser = c_Parser()
+    c_lexer = lexer.c_Lexer()
+    c_WhereParser = parser.c_WhereParser()
 
-    tokens = lexer.tokenize(text)
+    tokens = c_lexer.tokenize(text)
 
-    for token in tokens:
-        print(token)
+    print(tokens)
+    # for token in tokens:
+    #     print(token)
 
-    if(False):
-        tokens = splitTokens(tokens)
-        print("),\n".join(str(tokens).split("),")))
+    tokens = splitTokens(tokens)
+    print("),\n".join(str(tokens).split("),")))
 
-    # result = parser.parse(tokens)
-
+    print(tokens["B_WHERE"])
+    # selectParse = None
+    whereParse = c_WhereParser.parse(tokens["B_WHERE"])
 
 while True:
     interpret(input(">"))
