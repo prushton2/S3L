@@ -1,5 +1,10 @@
 class Command:
-    def __init__(self, name, subCommands, regex):
+    def __init__(self, name, regex):
         self.name = name
-        self.subCommands = subCommands
         self.regex = regex
+
+# Commands
+
+select = Command('select', r'SELECT')
+from_ = Command('from', r'FROM')
+where = Command('where', r'WHERE')

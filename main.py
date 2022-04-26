@@ -1,21 +1,37 @@
 from sly import Lexer
 import command as cmd
+import selectSyntax as SSyntax
+import whereSyntax as WSyntax
 
-select = cmd.Command('select', [], r'SELECT')
-from_ = cmd.Command('from', [], r'FROM')
-where = cmd.Command('where', [], r'WHERE')
 
 class lexer(Lexer): # primary lexer
     tokens = {
         SELECT,
         FROM,
-        WHERE
+        WHERE,
+
+        S_STAR,
+        S_OPEN_BRACKET,
+        S_CLOSE_BRACKET,
+
+        W_STRING_LITERAL
     }
     
-    SELECT = select.regex
-    FROM = from_.regex
-    WHERE = where.regex
+    # Base commands
+    SELECT = cmd.select.regex
+    FROM = cmd.from_.regex
+    WHERE = cmd.where.regex
     
+    # Select commands
+    S_STAR = SSyntax.star.regex
+    S_OPEN_BRACKET = SSyntax.openBracket.regex
+    S_CLOSE_BRACKET = SSyntax.closeBracket.regex
+
+    # Where commands
+    W_STRING_LITERAL = WSyntax.stringLiteral.regex
+
+
+    #this is important??
     ignore = r" \t"
 
 
