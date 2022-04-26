@@ -8,7 +8,7 @@ A readable Regex alternative that uses SQL like syntax to select text from a str
   * Denotes condition block of text needs to meet
 * From block
   * Last block, denotes the string to select from
-* Then block
+* Then block (This doesnt exist yet)
   * This can be used to end the first statement, and include a second statement.
 
 ## Simple Examples
