@@ -8,3 +8,5 @@ class Command:
 select = Command('select', r'SELECT(?i)')
 from_ = Command('from', r'FROM(?i)')
 where = Command('where', r'WHERE(?i)')
+semicolon = Command(";", r'\;')
+
