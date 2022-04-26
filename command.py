@@ -5,6 +5,6 @@ class Command:
 
 # Commands
 
-select = Command('select', r'SELECT')
-from_ = Command('from', r'FROM')
-where = Command('where', r'WHERE')
+select = Command('select', r'SELECT(?i)')
+from_ = Command('from', r'FROM(?i)')
+where = Command('where', r'WHERE(?i)')
