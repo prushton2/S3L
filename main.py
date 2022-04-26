@@ -1,14 +1,15 @@
 from sly import Lexer
-import command as cmd
+
+import command      as cmd
 import selectSyntax as SSyntax
-import whereSyntax as WSyntax
+import whereSyntax  as WSyntax
 import globalSyntax as GSyntax
 
 class lexer(Lexer): # primary lexer
     tokens = {
-        SELECT,
-        FROM,
-        WHERE,
+        B_SELECT,
+        B_FROM,
+        B_WHERE,
 
         S_STAR,
         S_OPEN_BRACKET,
@@ -16,13 +17,15 @@ class lexer(Lexer): # primary lexer
 
         W_STR,
 
-        G_STRING_LITERAL
+        G_STRING_LITERAL,
+        G_SEMICOLON,
+
     }
     
     # Base commands
-    SELECT = cmd.select.regex
-    FROM = cmd.from_.regex
-    WHERE = cmd.where.regex
+    B_SELECT = cmd.select.regex
+    B_FROM = cmd.from_.regex
+    B_WHERE = cmd.where.regex
     
     # Select commands
     S_STAR = SSyntax.star.regex
@@ -34,6 +37,7 @@ class lexer(Lexer): # primary lexer
 
     # Global commands
     G_STRING_LITERAL = GSyntax.stringLiteral.regex
+    G_SEMICOLON = GSyntax.semicolon.regex
 
 
     #this is important??
