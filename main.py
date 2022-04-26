@@ -18,6 +18,7 @@ class lexer(Lexer): # primary lexer
         W_STR,
 
         G_STRING_LITERAL,
+        G_NUM_LITERAL,
         G_SEMICOLON,
 
     }
@@ -37,6 +38,7 @@ class lexer(Lexer): # primary lexer
 
     # Global commands
     G_STRING_LITERAL = GSyntax.stringLiteral.regex
+    G_NUM_LITERAL = GSyntax.numLiteral.regex
     G_SEMICOLON = GSyntax.semicolon.regex
 
 
