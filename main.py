@@ -2,7 +2,7 @@ from sly import Lexer
 import command as cmd
 import selectSyntax as SSyntax
 import whereSyntax as WSyntax
-
+import globalSyntax as GSyntax
 
 class lexer(Lexer): # primary lexer
     tokens = {
@@ -14,7 +14,9 @@ class lexer(Lexer): # primary lexer
         S_OPEN_BRACKET,
         S_CLOSE_BRACKET,
 
-        W_STRING_LITERAL
+        W_STR,
+
+        G_STRING_LITERAL
     }
     
     # Base commands
@@ -28,7 +30,10 @@ class lexer(Lexer): # primary lexer
     S_CLOSE_BRACKET = SSyntax.closeBracket.regex
 
     # Where commands
-    W_STRING_LITERAL = WSyntax.stringLiteral.regex
+    W_STR = WSyntax.str_.regex
+
+    # Global commands
+    G_STRING_LITERAL = GSyntax.stringLiteral.regex
 
 
     #this is important??
