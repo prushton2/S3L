@@ -7,6 +7,6 @@ numLiteral = cmd.Command("num", r'\d+')
 openParenthesis = cmd.Command("(", r'\(')
 closeParenthesis = cmd.Command(")", r'\)')
 
-# "e"*10+range("0-9") from "Heeeeeeeeee1 ayo"
+# "e"*3+_"
 
 # (?<=")([^"\n]|(\\"))*(?=")
