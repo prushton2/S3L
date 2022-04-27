@@ -6,6 +6,9 @@ class Check:
 
     def check(self, p):
         return self.value == p.value
+    
+    def __str__(self):
+        return f"{self.value}"
 
 class Range(Check):
     def __init__(self, value):
@@ -16,7 +19,7 @@ class Range(Check):
 
 class Underscore(Check):
     def __init__(self):
-        super().__init__(None)
+        super().__init__("_")
         pass
 
     def check(self, p):

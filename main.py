@@ -37,7 +37,9 @@ def interpret(text):
     w_lexer = lexer.w_Lexer() #where lexer
     f_lexer = lexer.f_Lexer() #from lexer
     
-    w_parser = parser.w_Parser()
+
+    w_parser = parser.w_Parser() #Where parser
+    f_parser = parser.f_Parser() #Where parser
 
     tokens = b_lexer.tokenize(text)
 
@@ -48,10 +50,12 @@ def interpret(text):
     whereTokens = w_lexer.tokenize(statements["B_WHERE"])
     fromTokens = f_lexer.tokenize(statements["B_FROM"])
 
-    print("Made Subtokens")
-
     whereParse = w_parser.parse(whereTokens)
-    print(whereParse)
+    fromParse = f_parser.parse(fromTokens)
+    
+    print(f"Parsed where clause: {whereParse}")
+    print(f"Parsed from clause: {fromParse}")
+
 
 while True:
     interpret(input(">"))
