@@ -51,44 +51,5 @@ def interpret(text):
     whereParse = w_parser.parse(whereTokens)
     print(whereParse)
 
-def interpret2(text): #Cursed code
-    b_lexer = lexer.b_Lexer() #base lexer
-    s_lexer = lexer.s_Lexer() #select lexer
-    w_lexer = lexer.w_Lexer() #where lexer
-    f_lexer = lexer.f_Lexer() #from lexer
-
-    w_parser = parser.c_WhereParser() #where parser
-    
-
-
-    tokens = b_lexer.tokenize(text)
-
-    statements = splitStatement(tokens)
-    print(statements)
-
-    selectTokens = s_lexer.tokenize(statements["B_SELECT"])
-    whereTokens = w_lexer.tokenize(statements["B_WHERE"])
-    fromTokens = f_lexer.tokenize(statements["B_FROM"])
-
-    print("---SELECT---")
-    for i in selectTokens:
-        print(i)
-
-    print("---WHERE---")
-    for i in whereTokens:
-        print(i)
-
-    print("---FROM---")
-    for i in fromTokens:
-        print(i)
-
-    print("---PARSING---")
-
-    where = w_parser.parse(tokens)
-
-    print(where)
-
 while True:
     interpret(input(">"))
-
-#Stress test: select [*] where "e"*10+range("0-9") from "Heeeeeeeeee1 ayo"
