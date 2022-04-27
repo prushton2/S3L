@@ -6,15 +6,16 @@ class w_Parser(Parser):
     # Get the token list from the lexer (required)
     tokens = lexer.b_Lexer.tokens
 
-    def __init__(self, checkList):
-        self.checkList = checkList
+    def __init__(self):
+        self.checkList = []
 
     # tokens = CalcLexer.tokens
 
     # Grammar rules and actions
     @_('rawExpr G_STAR rawExpr')
     def rawExpr(self, p):
-        return p.expr0 * p.expr1
+        print("Multiplying")
+        return p.rawExpr0 * p.rawExpr1
 
     @_('G_STRING_LITERAL')
     def rawExpr(self, p):
@@ -23,7 +24,11 @@ class w_Parser(Parser):
     @_('G_NUM_LITERAL')
     def rawExpr(self, p):
         return int(p.G_NUM_LITERAL)
+
+    @_('W_UNDERSCORE')
+    def rawExpr(self, p):
+        return p.W_UNDERSCORE
     
     @_('W_RANGE G_OPEN_PARENTHESIS rawExpr G_CLOSE_PARENTHESIS')
     def obj(self, p):
-        return exp.Range(p.rawExpr)
+        return ""

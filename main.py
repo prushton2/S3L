@@ -48,6 +48,8 @@ def interpret(text):
     whereTokens = w_lexer.tokenize(statements["B_WHERE"])
     fromTokens = f_lexer.tokenize(statements["B_FROM"])
 
+    print("Made Subtokens")
+
     whereParse = w_parser.parse(whereTokens)
     print(whereParse)
 

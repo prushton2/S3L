@@ -20,6 +20,7 @@ class b_Lexer(Lexer): # Full lexer, needs to be able to tokenize everything
         W_STR,
         W_PLUS,
         W_RANGE,
+        W_UNDERSCORE,
 
         G_STAR,
         G_STRING_LITERAL,
@@ -45,6 +46,7 @@ class b_Lexer(Lexer): # Full lexer, needs to be able to tokenize everything
     W_STR = WSyntax.str_.regex
     W_PLUS = WSyntax.plus.regex
     W_RANGE = WSyntax.range.regex
+    W_UNDERSCORE = WSyntax.underscore.regex
 
     # Global commands
     G_STAR = GSyntax.star.regex
@@ -95,6 +97,7 @@ class w_Lexer(Lexer): # Where lexer, needs to be able to tokenize where commands
         W_STR,
         W_PLUS,
         W_RANGE,
+        W_UNDERSCORE,
 
         G_STAR,
         G_STRING_LITERAL,
@@ -107,6 +110,7 @@ class w_Lexer(Lexer): # Where lexer, needs to be able to tokenize where commands
     W_STR = WSyntax.str_.regex
     W_PLUS = WSyntax.plus.regex
     W_RANGE = WSyntax.range.regex
+    W_UNDERSCORE = WSyntax.underscore.regex
 
     # Global commands
     G_STAR = GSyntax.star.regex
