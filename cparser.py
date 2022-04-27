@@ -37,17 +37,17 @@ class w_Parser(Parser):
 
     @_('rawExpr W_PLUS rawExpr')
     def rawExpr(self, p):
-        print(f"{p.rawExpr0} PLUS {p.rawExpr1}")
+        #print(f"{p.rawExpr0} PLUS {p.rawExpr1}")
         return str(p.rawExpr0) + str(p.rawExpr1)
     
     @_('rawExpr G_STAR rawExpr')
     def rawExpr(self, p):
-        print(f"{p.rawExpr0} STAR {p.rawExpr1}")
+        #print(f"{p.rawExpr0} STAR {p.rawExpr1}")
         return p.rawExpr0 * p.rawExpr1
 
     @_('G_STRING_LITERAL')
     def rawExpr(self, p):
-        print(f"String literal({p.G_STRING_LITERAL}) -> rawExpr")
+        #print(f"String literal({p.G_STRING_LITERAL}) -> rawExpr")
         G_STRING_LITERAL = p.G_STRING_LITERAL
         if("&$" in p.G_STRING_LITERAL):
             index = p.G_STRING_LITERAL.find("&$")
@@ -57,27 +57,23 @@ class w_Parser(Parser):
 
     @_('G_NUM_LITERAL')
     def rawExpr(self, p):
-        print(f"Number literal({p.G_NUM_LITERAL}) -> rawExpr")
         return int(p.G_NUM_LITERAL)
 
 
     @_('G_OPEN_PARENTHESIS rawExpr G_CLOSE_PARENTHESIS')
     def rawExpr(self, p):
-        print("Parenthesis -> rawExpr")
         return p.rawExpr
         
     @_('W_UNDERSCORE')
     def rawExpr(self, p):
         index = len(self.objects)
         self.objects.append(exp.Underscore())
-        print(f"Underscore({p.W_UNDERSCORE}) -> rawExpr(&${format(index, '4d')})")
         return f"&${format(index, '4d')}"
     
     @_('W_RANGE G_OPEN_PARENTHESIS rawExpr G_CLOSE_PARENTHESIS')
     def rawExpr(self, p):
         index = len(self.objects)
         self.objects.append(exp.Range(p.rawExpr))
-        print(f"range({p.rawExpr}) -> rawExpr(&${format(index, '4d')})")
         return f"&${format(index, '4d')}"
 
 class f_Parser(Parser):
