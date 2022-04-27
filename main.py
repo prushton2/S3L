@@ -58,5 +58,9 @@ def interpret(text):
     selection = selector.getText(whereParse, fromParse, w_parser.objects)
     print(f"Selection: {selection}")
 
-while True:
-    interpret(input(">"))
+def main():
+    while True:
+        interpret(input(">"))
+
+if __name__ == "__main__":
+    main()
