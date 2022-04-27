@@ -1,5 +1,6 @@
 import lexer as lexer
 import cparser as parser
+import selector as selector
 
 # There is absolutely a better way to do this. I'm just not sure how to do it. Either way, im learning about lexers, gimme a break.
 
@@ -37,14 +38,12 @@ def interpret(text):
     w_lexer = lexer.w_Lexer() #where lexer
     f_lexer = lexer.f_Lexer() #from lexer
     
-
     w_parser = parser.w_Parser() #Where parser
     f_parser = parser.f_Parser() #Where parser
 
     tokens = b_lexer.tokenize(text)
 
     statements = splitStatement(tokens)
-    print(statements)
 
     selectTokens = s_lexer.tokenize(statements["B_SELECT"])
     whereTokens = w_lexer.tokenize(statements["B_WHERE"])
@@ -52,10 +51,12 @@ def interpret(text):
 
     whereParse = w_parser.parse(whereTokens)
     fromParse = f_parser.parse(fromTokens)
-    
+
     print(f"Parsed where clause: {whereParse}")
     print(f"Parsed from clause: {fromParse}")
 
+    selection = selector.getText(whereParse, fromParse, w_parser.objects)
+    print(f"Selection: {selection}")
 
 while True:
     interpret(input(">"))

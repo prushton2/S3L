@@ -8,13 +8,23 @@ class Check:
         return self.value == p.value
     
     def __str__(self):
-        return f"{self.value}"
+        return f"Object: {self.value}"
+
+    def matches(self, p):
+        return self.value == p
+
+class Literal(Check):
+    def __init__(self, value):
+        super().__init__(value)
+
+    def __str__(self):
+        return f"Literal: {self.value}"
 
 class Range(Check):
     def __init__(self, value):
         super().__init__(value)
 
-    def check(self, p):
+    def matches(self, p):
         return re.match(f"{super().value}", p.value)
 
 class Underscore(Check):
@@ -22,9 +32,5 @@ class Underscore(Check):
         super().__init__("_")
         pass
 
-    def check(self, p):
+    def matches(self, p):
         return True
-
-class StringLiteral(Check):
-    def __init__(self, value):
-        super().__init__(value)
