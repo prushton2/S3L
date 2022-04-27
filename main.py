@@ -1,4 +1,3 @@
-from posixpath import split
 import lexer as lexer
 import cparser as parser
 
@@ -8,7 +7,8 @@ def splitStatement(tokens):
     statementStrings = {
         "B_SELECT": "",
         "B_WHERE": "",
-        "B_FROM": ""
+        "B_FROM": "",
+        "": ""
     }
 
     mostRecentBaseTokenName = ""
@@ -21,26 +21,44 @@ def splitStatement(tokens):
         if(token.type[0] == "B"):
             mostRecentBaseTokenName = token.type
         else:
-            statementStrings[mostRecentBaseTokenName] += (token.value+" ")
+            statementStrings[mostRecentBaseTokenName] += (token.value)
 
     statementStrings = {
-        "B_SELECT": statementStrings["B_SELECT"][0:-1],
-        "B_WHERE": statementStrings["B_WHERE"][0:-1],
-        "B_FROM": statementStrings["B_FROM"][0:-1]
+        "B_SELECT": statementStrings["B_SELECT"],
+        "B_WHERE": statementStrings["B_WHERE"],
+        "B_FROM": statementStrings["B_FROM"]
     }
 
     return statementStrings
 
-
-
 def interpret(text):
-    b_lexer = lexer.b_Lexer()
-    s_lexer = lexer.s_Lexer()
-    w_lexer = lexer.w_Lexer()
-    f_lexer = lexer.f_Lexer()
+    b_lexer = lexer.b_Lexer() #base lexer
+    s_lexer = lexer.s_Lexer() #select lexer
+    w_lexer = lexer.w_Lexer() #where lexer
+    f_lexer = lexer.f_Lexer() #from lexer
+    
+    w_parser = parser.w_Parser()
 
-    c_WhereParser = parser.c_WhereParser()
+    tokens = b_lexer.tokenize(text)
 
+    statements = splitStatement(tokens)
+    print(statements)
+
+    selectTokens = s_lexer.tokenize(statements["B_SELECT"])
+    whereTokens = w_lexer.tokenize(statements["B_WHERE"])
+    fromTokens = f_lexer.tokenize(statements["B_FROM"])
+
+    whereParse = w_parser.parse(whereTokens)
+    print(whereParse)
+
+def interpret2(text): #Cursed code
+    b_lexer = lexer.b_Lexer() #base lexer
+    s_lexer = lexer.s_Lexer() #select lexer
+    w_lexer = lexer.w_Lexer() #where lexer
+    f_lexer = lexer.f_Lexer() #from lexer
+
+    w_parser = parser.c_WhereParser() #where parser
+    
 
 
     tokens = b_lexer.tokenize(text)
@@ -63,6 +81,12 @@ def interpret(text):
     print("---FROM---")
     for i in fromTokens:
         print(i)
+
+    print("---PARSING---")
+
+    where = w_parser.parse(tokens)
+
+    print(where)
 
 while True:
     interpret(input(">"))
