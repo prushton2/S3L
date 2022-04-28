@@ -1,36 +1,44 @@
+from ast import parse
 import re
 import expressions as exp
+from cparser import w_Parser
 
 def matchesStart(string, selectionList): #Only detects if the first characters matches the selection list
     for i, item in enumerate(selectionList):
-        if(i > len(string)+1):
-            continue
+        if(i > len(string)-1):
+            return False
         if(not selectionList[i].matches(string[i])):
             return False
     return True
 
-# \&$ 2&$
+def convertParseStringToList(parseString, objectList):
 
-
-def getText(selectionString, textString, objectList):
-    mostRecentObject = -10
-    indexList = []
     selectionList = []
-    index = -1 #budget for loop
-    while(index < len(selectionString)-1): #Loop thorough selection and create a list of objects that makes comparisons easier
-        index += 1
+
+    i = -1
+    while(i < len(parseString)-1):
+        i += 1
+
+        if(parseString[i] == "&" and parseString[i-1] != "\\"):
+            listIndex = int(parseString[i+1:i+5])
+            selectionList.append(objectList[listIndex])
+            i += 4
+        else:
+            selectionList.append(exp.Literal(parseString[i]))
+
+    return selectionList
+
+def getMatchingIndices(whereString, fromString, objectList):
+    
+    selectionList = convertParseStringToList(whereString, objectList)
 
 
-        if(re.match(r'&\$', selectionString[index:index+2])):
-            if(selectionString[index-1] != '\\'):
-                selectionList.append(objectList[int(selectionString[index+3:index+6])])
-                index += 5
-                continue
+    matchingIndices = []
+    for index, char in enumerate(fromString):
+        if(matchesStart(fromString[index:], selectionList)):
+            matchingIndices += (list(range(index, index+len(selectionList))))
+    #removes duplicates
+    matchingIndices = list(set(matchingIndices))
+    matchingIndices.sort()
 
-        selectionList.append(exp.Literal(selectionString[index]))
-    #create a simple regex to match the selection string
-
-    for stringIndex, i in enumerate(textString):
-        if(matchesStart(textString[stringIndex:], selectionList)):
-            indexList += list(range(stringIndex, stringIndex+len(selectionList)))
-    return indexList   
+    return matchingIndices

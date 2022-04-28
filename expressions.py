@@ -25,7 +25,7 @@ class Range(Check):
         super().__init__(value)
 
     def matches(self, p):
-        return re.match(f"{super().value}", p.value)
+        return re.match(f"[{self.value}]", p)
 
 class Underscore(Check):
     def __init__(self):

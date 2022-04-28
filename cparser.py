@@ -22,9 +22,9 @@ class w_Parser(Parser):
     def __init__(self):
         self.objects = []
 
-    precedence = (
+    objectReferencePrefix = "&"
 
-        # ('left', 'obj'),
+    precedence = (
         
         ('left', 'G_OPEN_PARENTHESIS'),
 
@@ -37,10 +37,12 @@ class w_Parser(Parser):
 
     )
 
+    def addObject(self, object):
+        self.objects.append(object)
+        index = len(self.objects)-1
+        return f"{self.objectReferencePrefix}{format(index, '4d')}"
+
     # Grammar rules and actions
-    @_('W_RANGE G_OPEN_PARENTHESIS rawExpr G_CLOSE_PARENTHESIS')
-    def term(self, p):
-        return p.rawExpr
 
     @_('G_OPEN_PARENTHESIS rawExpr G_CLOSE_PARENTHESIS')
     def rawExpr(self, p):
@@ -60,8 +62,8 @@ class w_Parser(Parser):
     def rawExpr(self, p):
         #print(f"String literal({p.G_STRING_LITERAL}) -> rawExpr")
         G_STRING_LITERAL = p.G_STRING_LITERAL
-        if("&$" in p.G_STRING_LITERAL):
-            index = p.G_STRING_LITERAL.find("&$")
+        if(self.objectReferencePrefix in p.G_STRING_LITERAL):
+            index = p.G_STRING_LITERAL.find(self.objectReferencePrefix)
             if (p.G_STRING_LITERAL[index-1] != "\\"):
                 G_STRING_LITERAL = p.G_STRING_LITERAL[:index] + "\\" + p.G_STRING_LITERAL[index:]
         return G_STRING_LITERAL[1:-1]
@@ -69,18 +71,15 @@ class w_Parser(Parser):
     @_('G_NUM_LITERAL')
     def rawExpr(self, p):
         return int(p.G_NUM_LITERAL)
-        
+
+    @_('W_RANGE G_OPEN_PARENTHESIS rawExpr G_CLOSE_PARENTHESIS')
+    def rawExpr(self, p):
+        return self.addObject(exp.Range(p.rawExpr))
+
     @_('W_UNDERSCORE')
     def rawExpr(self, p):
-        index = len(self.objects)
-        self.objects.append(exp.Underscore())
-        return f"&${format(index, '4d')}"
+        return self.addObject(exp.Underscore())
     
-    # @_('obj')
-    # def obj(self, p):
-    #     self.objects.append(p.obj)
-    #     return ""
-
 class f_Parser(Parser):
 
     tokens = lexer.f_Lexer.tokens

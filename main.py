@@ -52,11 +52,11 @@ def interpret(text):
     whereParse = w_parser.parse(whereTokens)
     fromParse = f_parser.parse(fromTokens)
 
-    print(f"Parsed where clause: {whereParse}")
-    print(f"Parsed from clause: {fromParse}")
+    print(f"Parsed where clause: |{whereParse}|")
+    print(f"Parsed from clause: |{fromParse}|")
 
-    # selection = selector.getText(whereParse, fromParse, w_parser.objects)
-    # print(f"Selection: {selection}")
+    selection = selector.getMatchingIndices(whereParse, fromParse, w_parser.objects) #get indexes where the where clause matches the string
+    print(f"Selection: {selection}")
 
 def main():
     while True:
