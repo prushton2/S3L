@@ -1,7 +1,4 @@
-from ast import parse
-import re
 import expressions as exp
-from cparser import w_Parser
 
 def matchesStart(string, selectionList): #Only detects if the first characters matches the selection list
     for i, item in enumerate(selectionList):
