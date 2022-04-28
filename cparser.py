@@ -13,7 +13,9 @@ import expressions as exp
 
 #     # Grammar rules and actions
 
-class w_Parser(Parser):
+class w_Parser(Parser): 
+    # This needs to be reworked. I parse everything here, and create a list of objects later. I can absolutely merge these
+    # two functions into just the parser. This is going to reduce bugs and make it easier to read.
     # Get the token list from the lexer (required)
     tokens = lexer.w_Lexer.tokens
 
@@ -21,6 +23,8 @@ class w_Parser(Parser):
         self.objects = []
 
     precedence = (
+
+        # ('left', 'obj'),
         
         ('left', 'G_OPEN_PARENTHESIS'),
 
@@ -34,6 +38,13 @@ class w_Parser(Parser):
     )
 
     # Grammar rules and actions
+    @_('W_RANGE G_OPEN_PARENTHESIS rawExpr G_CLOSE_PARENTHESIS')
+    def term(self, p):
+        return p.rawExpr
+
+    @_('G_OPEN_PARENTHESIS rawExpr G_CLOSE_PARENTHESIS')
+    def rawExpr(self, p):
+        return p.rawExpr
 
     @_('rawExpr W_PLUS rawExpr')
     def rawExpr(self, p):
@@ -58,11 +69,6 @@ class w_Parser(Parser):
     @_('G_NUM_LITERAL')
     def rawExpr(self, p):
         return int(p.G_NUM_LITERAL)
-
-
-    @_('G_OPEN_PARENTHESIS rawExpr G_CLOSE_PARENTHESIS')
-    def rawExpr(self, p):
-        return p.rawExpr
         
     @_('W_UNDERSCORE')
     def rawExpr(self, p):
@@ -70,11 +76,10 @@ class w_Parser(Parser):
         self.objects.append(exp.Underscore())
         return f"&${format(index, '4d')}"
     
-    @_('W_RANGE G_OPEN_PARENTHESIS rawExpr G_CLOSE_PARENTHESIS')
-    def rawExpr(self, p):
-        index = len(self.objects)
-        self.objects.append(exp.Range(p.rawExpr))
-        return f"&${format(index, '4d')}"
+    # @_('obj')
+    # def obj(self, p):
+    #     self.objects.append(p.obj)
+    #     return ""
 
 class f_Parser(Parser):
 

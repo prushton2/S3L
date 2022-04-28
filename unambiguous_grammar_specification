@@ -1,0 +1,10 @@
+rawExpr :
+    rawExpr + rawExpr
+    rawExpr * rawExpr
+    G_STRING_LITERAL
+    G_NUM_LITERAL
+
+object :
+    W_RANGE (rawExpr)
+    W_UNDERSCORE
+    

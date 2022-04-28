@@ -55,8 +55,8 @@ def interpret(text):
     print(f"Parsed where clause: {whereParse}")
     print(f"Parsed from clause: {fromParse}")
 
-    selection = selector.getText(whereParse, fromParse, w_parser.objects)
-    print(f"Selection: {selection}")
+    # selection = selector.getText(whereParse, fromParse, w_parser.objects)
+    # print(f"Selection: {selection}")
 
 def main():
     while True:
