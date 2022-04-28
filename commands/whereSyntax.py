@@ -1,5 +1,4 @@
-import command as cmd
-import globalSyntax as GSyntax
+import commands.command as cmd
 
 str_ = cmd.Command("str", r'str')
 plus = cmd.Command("+", r'\+')

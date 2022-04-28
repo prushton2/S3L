@@ -1,5 +1,5 @@
-import lexer as lexer
-import cparser as parser
+import slyFiles.lexer as lexer
+import slyFiles.cparser as parser
 import selector as selector
 
 # There is absolutely a better way to do this. I'm just not sure how to do it. Either way, im learning about lexers, gimme a break.

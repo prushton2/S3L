@@ -1,4 +1,4 @@
-import command as cmd
+import commands.command as cmd
 
 star = cmd.Command("*", r'\*')
 stringLiteral = cmd.Command("string", r'"([^"\n]|(\\"))*"')

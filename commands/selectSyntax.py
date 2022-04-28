@@ -1,4 +1,4 @@
-import command as cmd
+import commands.command as cmd
 
 openBracket = cmd.Command("[", r'\[')
 closeBracket = cmd.Command("]", r'\]')

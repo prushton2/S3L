@@ -1,4 +1,4 @@
-import lexer as lexer
+import slyFiles.lexer as lexer
 from sly import Parser
 import expressions as exp
 

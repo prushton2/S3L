@@ -1,9 +1,9 @@
 from sly import Lexer, Parser
 
-import command      as cmd
-import selectSyntax as SSyntax
-import whereSyntax  as WSyntax
-import globalSyntax as GSyntax
+import commands.command      as cmd
+import commands.selectSyntax as SSyntax
+import commands.whereSyntax  as WSyntax
+import commands.globalSyntax as GSyntax
 
 class b_Lexer(Lexer): # Full lexer, needs to be able to tokenize everything
     tokens = {
