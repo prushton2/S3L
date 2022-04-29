@@ -1,0 +1,52 @@
+Grammar:
+
+Rule 0     S' -> openBracket
+Rule 1     openBracket -> S_OPEN_BRACKET
+Rule 2     closeBracket -> S_CLOSE_BRACKET
+
+Unused terminals:
+
+    S_RIGHT_ARROW
+    G_NUM_LITERAL
+    G_STAR
+    G_OPEN_PARENTHESIS
+    G_CLOSE_PARENTHESIS
+    S_LEFT_ARROW
+    G_STRING_LITERAL
+
+Terminals, with rules where they appear:
+
+G_CLOSE_PARENTHESIS  : 
+G_NUM_LITERAL        : 
+G_OPEN_PARENTHESIS   : 
+G_STAR               : 
+G_STRING_LITERAL     : 
+S_CLOSE_BRACKET      : 2
+S_LEFT_ARROW         : 
+S_OPEN_BRACKET       : 1
+S_RIGHT_ARROW        : 
+error                : 
+
+Nonterminals, with rules where they appear:
+
+closeBracket         : 
+openBracket          : 0
+
+
+state 0
+
+    (0) S' -> . openBracket
+    (1) openBracket -> . S_OPEN_BRACKET
+    S_OPEN_BRACKET  shift and go to state 2
+
+    openBracket                    shift and go to state 1
+
+state 1
+
+    (0) S' -> openBracket .
+
+
+state 2
+
+    (1) openBracket -> S_OPEN_BRACKET .
+    $end            reduce using rule 1 (openBracket -> S_OPEN_BRACKET .)

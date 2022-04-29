@@ -2,16 +2,55 @@ import slyFiles.lexer as lexer
 from sly import Parser
 import expressions as exp
 
-# class s_Parser(Parser):
-#     # Get the token list from the lexer (required)
-#     tokens = lexer.b_Lexer.tokens
+class s_Parser(Parser):
+    # Get the token list from the lexer (required)
+    tokens = lexer.s_Lexer.tokens
 
-#     def __init__(self):
-#         self.selectedCharacters = []
+    def __init__(self):
+        self.selectedCharacters = []
+        self.leftOutside = 0  #x<[] // Where x is the value stored in the variable
+        self.rightOutside = 0 #[]>x
+        self.leftInside = 0   #[>x] // -1 means that there was a * placed inside the brackets
+        self.rightInside = 0  #[x<]
+    
+    debugfile = "parser.out"
 
-#     # tokens = CalcLexer.tokens
+    # precedence = (
+    #     ('left', 'G_NUM_LITERAL'),
+    #     ('left', 'S_OPEN_BRACKET'),
+    #     ('right', 'S_CLOSE_BRACKET'),
+    # )
 
-#     # Grammar rules and actions
+    @_('S_OPEN_BRACKET')
+    def openBracket(self, p):
+        return p.S_OPEN_BRACKET
+    
+    @_('S_CLOSE_BRACKET')
+    def closeBracket(self, p):
+        return p.S_CLOSE_BRACKET
+
+    # @_('openBracket')
+    # def openBracket(self, p):
+    #     return p.openBracket
+    
+    # @_('closeBracket')
+    # def closeBracket(self, p):
+    #     return p.closeBracket
+
+    # @_('rawExpr S_LEFT_ARROW S_OPEN_BRACKET')
+    # def rawExpr(self, p):
+    #     self.leftOutside = int(p.rawExpr)
+    #     # return p.openBracket
+
+    # @_('rawExpr S_LEFT_ARROW S_CLOSE_BRACKET')
+    # def rawExpr(self, p):
+    #     self.leftInside = int(p.rawExpr)
+    #     # return p.closeBracket
+
+    # @_('G_NUM_LITERAL')
+    # def rawExpr(self, p):
+    #     return int(p.G_NUM_LITERAL)
+
 
 class w_Parser(Parser): 
     # This needs to be reworked. I parse everything here, and create a list of objects later. I can absolutely merge these

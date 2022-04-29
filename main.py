@@ -38,6 +38,7 @@ def interpret(text):
     w_lexer = lexer.w_Lexer() #where lexer
     f_lexer = lexer.f_Lexer() #from lexer
     
+    s_parser = parser.s_Parser() #select parser
     w_parser = parser.w_Parser() #Where parser
     f_parser = parser.f_Parser() #Where parser
 
@@ -45,18 +46,26 @@ def interpret(text):
 
     statements = splitStatement(tokens)
 
+    print(statements)
+
     selectTokens = s_lexer.tokenize(statements["B_SELECT"])
-    whereTokens = w_lexer.tokenize(statements["B_WHERE"])
-    fromTokens = f_lexer.tokenize(statements["B_FROM"])
+    # whereTokens = w_lexer.tokenize(statements["B_WHERE"])
+    # fromTokens = f_lexer.tokenize(statements["B_FROM"])
 
-    whereParse = w_parser.parse(whereTokens)
-    fromParse = f_parser.parse(fromTokens)
 
-    print(f"Parsed where clause: |{whereParse}|")
-    print(f"Parsed from clause: |{fromParse}|")
+    selectParse = s_parser.parse(selectTokens)
+    # whereParse = w_parser.parse(whereTokens)
+    # fromParse = f_parser.parse(fromTokens)
 
-    selection = selector.getMatchingIndices(whereParse, fromParse, w_parser.objects) #get indexes where the where clause matches the string
-    print(f"Selection: {selection}")
+    print(f"Parsed select clause: |{selectParse}|")
+    # print(f"Parsed where clause: |{whereParse}|")
+    # print(f"Parsed from clause: |{fromParse}|")
+    print(f"leftOutside: {s_parser.leftOutside}")
+    print(f"leftInside: {s_parser.leftInside}")
+    print(f"rightOutside: {s_parser.rightOutside}")
+    print(f"rightInside: {s_parser.rightInside}")
+    # selection = selector.getMatchingIndices(whereParse, fromParse, w_parser.objects) #get indexes where the where clause matches the string
+    # print(f"Selection: {selection}")
 
 def main():
     while True:
