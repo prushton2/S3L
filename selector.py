@@ -67,6 +67,4 @@ def extendMatchingIndices(extensionArray, matchingIndices):
         extendedSelection.append([leftBound, innerLeftBound])
         extendedSelection.append([innerRightBound, rightBound])
 
-
-    print(f"matchingIndices: {matchingIndices}")
     return extendedSelection

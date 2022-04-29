@@ -14,25 +14,21 @@ class s_Parser(Parser):
     
     @_('G_NUM_LITERAL S_LEFT_ARROW S_OPEN_BRACKET')
     def rawExpr(self, p):
-        print(f"Left Oustide: {p.G_NUM_LITERAL}")
         self.leftOutside = int(p.G_NUM_LITERAL)
         return p.S_OPEN_BRACKET
 
     @_('S_OPEN_BRACKET S_RIGHT_ARROW G_NUM_LITERAL')
     def rawExpr(self, p):
-        print(f"Left Inside: {p.G_NUM_LITERAL}")
         self.leftInside = int(p.G_NUM_LITERAL)
         return p.S_OPEN_BRACKET
 
     @_('G_NUM_LITERAL S_LEFT_ARROW S_CLOSE_BRACKET')
     def rawExpr(self, p):
-        print(f"Right Inside: {p.G_NUM_LITERAL}")
         self.rightInside = int(p.G_NUM_LITERAL)
         return p.S_CLOSE_BRACKET
 
     @_('S_CLOSE_BRACKET S_RIGHT_ARROW G_NUM_LITERAL')
     def rawExpr(self, p):
-        print(f"Right Outside: {p.G_NUM_LITERAL}")
         self.rightOutside = int(p.G_NUM_LITERAL)
         return p.S_CLOSE_BRACKET
 class w_Parser(Parser): 

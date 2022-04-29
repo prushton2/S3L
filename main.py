@@ -50,8 +50,6 @@ def interpret(text):
 
     statements = splitStatement(tokens)
 
-    print(statements)
-
     selectTokens = s_lexer.tokenize(statements["B_SELECT"])
     whereTokens = w_lexer.tokenize(statements["B_WHERE"])
     fromTokens = f_lexer.tokenize(statements["B_FROM"])
