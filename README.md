@@ -8,7 +8,7 @@ A readable Regex alternative that uses SQL like syntax to select text from a str
   * Denotes condition block of text needs to meet
 * From block
   * Last block, denotes the string to select from
-* Then block (This doesnt exist yet)
+* Then block //Unimplemented
   * This can be used to end the first statement, and include a second statement.
 
 ## Simple Examples
@@ -17,7 +17,7 @@ A readable Regex alternative that uses SQL like syntax to select text from a str
 ```
 \> He```ll```o Wor```l```d
 ```
-> Select word where str == ”e” from “Hello World”;
+> Select word where str == ”e” from “Hello World”; //Unimplemented
 ```
 \> ```Hello``` World
 ```
@@ -27,7 +27,7 @@ A readable Regex alternative that uses SQL like syntax to select text from a str
 
 // Maybe this, or it will only return the first character.
 ```
-> Select char where str == “Hello” from “Hello World”;
+> Select [_] where str == “Hello” from “Hello World”;
 ```
 \> ```H```ello World
 
@@ -39,7 +39,7 @@ The interpreter iterates over every character and check every condition. When a 
 
 ## Keywords: 
 #### Keywords act differently depending on whether they are used in select or where
-* Select: //going to rework
+* Select:
   * [ _ ]
     * Default select clause. Highlights all matching text
   * < >
@@ -52,25 +52,23 @@ The interpreter iterates over every character and check every condition. When a 
         ```select [>2_2<] where "Hello" from "Hello World"  ``` -> ```He```l```lo``` world
 
 * Where:
-  * str:
-    * == comparison: Checks all characters after the current character if they match x, where x is a word.
   * \+
     * Append operator.
     * Looks at the next character in the string 
-    * Ex: str==”He”+str==”llo matches “Hello”, not “He llo”
+    * Ex: "He"+"llo" matches “Hello”, not “He llo”
   * Star (\*)
     * Repeat operator
     * Repeats the previous conditional
     * Ex: “eee” is the same as “e”*3
   * Underscore ( _ )
     * Allows any character
-  * Conditional Operators
+  * Conditional Operators //Unimplemented. Not going to implement and, only or and not
     * and, or, not, etc all work properly
   * String Literal
     * Defining a string literal is the same as writing str == “”
     * Ex: “e” is the same as str == “e”
   * Range:
-    * Creates a character range, like [a-z] in regex
+    * Creates a character range, like [a-z] in regex. This is literally parsed into regex, so any range works
     * Defined as range(“a-z”)
     * Valid ranges consist of:
       * a-z
@@ -81,16 +79,15 @@ The interpreter iterates over every character and check every condition. When a 
 
 //Will match any 10 character long string of letters with one number at the end
 ```
-> select [*] where (range(a-z) or range(A-Z))*10 + range(0-9);
+> select [_] where (range(a-z) or range(A-Z))*10 + range(0-9);
 ```
-
 //Will match any 10 character long string of letters with one number at the end
 ```
-> select [*] where (range(a-z) or range(A-Z))*10 + range(0-9);
+> select [_] where (range(a-z) or range(A-Z))*10 + range(0-9);
 ```
-//Will select all letters between H and o in a string
+//Will select H and 3 characters to the left of it
 ```
-> select [*]>"o" where "H";
+> select [_]>3 where "H";
 ```
 
 
