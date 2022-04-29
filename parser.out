@@ -1,52 +1,114 @@
 Grammar:
 
-Rule 0     S' -> openBracket
-Rule 1     openBracket -> S_OPEN_BRACKET
-Rule 2     closeBracket -> S_CLOSE_BRACKET
+Rule 0     S' -> rawExpr
+Rule 1     rawExpr -> S_CLOSE_BRACKET S_RIGHT_ARROW G_NUM_LITERAL
+Rule 2     rawExpr -> G_NUM_LITERAL S_LEFT_ARROW S_CLOSE_BRACKET
+Rule 3     rawExpr -> S_OPEN_BRACKET S_RIGHT_ARROW G_NUM_LITERAL
+Rule 4     rawExpr -> G_NUM_LITERAL S_LEFT_ARROW S_OPEN_BRACKET
 
 Unused terminals:
 
-    S_RIGHT_ARROW
-    G_NUM_LITERAL
+    G_STRING_LITERAL
+    G_CLOSE_PARENTHESIS
+    W_UNDERSCORE
     G_STAR
     G_OPEN_PARENTHESIS
-    G_CLOSE_PARENTHESIS
-    S_LEFT_ARROW
-    G_STRING_LITERAL
 
 Terminals, with rules where they appear:
 
 G_CLOSE_PARENTHESIS  : 
-G_NUM_LITERAL        : 
+G_NUM_LITERAL        : 1 2 3 4
 G_OPEN_PARENTHESIS   : 
 G_STAR               : 
 G_STRING_LITERAL     : 
-S_CLOSE_BRACKET      : 2
-S_LEFT_ARROW         : 
-S_OPEN_BRACKET       : 1
-S_RIGHT_ARROW        : 
+S_CLOSE_BRACKET      : 1 2
+S_LEFT_ARROW         : 2 4
+S_OPEN_BRACKET       : 3 4
+S_RIGHT_ARROW        : 1 3
+W_UNDERSCORE         : 
 error                : 
 
 Nonterminals, with rules where they appear:
 
-closeBracket         : 
-openBracket          : 0
+rawExpr              : 0
 
 
 state 0
 
-    (0) S' -> . openBracket
-    (1) openBracket -> . S_OPEN_BRACKET
-    S_OPEN_BRACKET  shift and go to state 2
+    (0) S' -> . rawExpr
+    (1) rawExpr -> . S_CLOSE_BRACKET S_RIGHT_ARROW G_NUM_LITERAL
+    (2) rawExpr -> . G_NUM_LITERAL S_LEFT_ARROW S_CLOSE_BRACKET
+    (3) rawExpr -> . S_OPEN_BRACKET S_RIGHT_ARROW G_NUM_LITERAL
+    (4) rawExpr -> . G_NUM_LITERAL S_LEFT_ARROW S_OPEN_BRACKET
+    S_CLOSE_BRACKET shift and go to state 2
+    G_NUM_LITERAL   shift and go to state 3
+    S_OPEN_BRACKET  shift and go to state 4
 
-    openBracket                    shift and go to state 1
+    rawExpr                        shift and go to state 1
 
 state 1
 
-    (0) S' -> openBracket .
+    (0) S' -> rawExpr .
 
 
 state 2
 
-    (1) openBracket -> S_OPEN_BRACKET .
-    $end            reduce using rule 1 (openBracket -> S_OPEN_BRACKET .)
+    (1) rawExpr -> S_CLOSE_BRACKET . S_RIGHT_ARROW G_NUM_LITERAL
+    S_RIGHT_ARROW   shift and go to state 5
+
+
+state 3
+
+    (2) rawExpr -> G_NUM_LITERAL . S_LEFT_ARROW S_CLOSE_BRACKET
+    (4) rawExpr -> G_NUM_LITERAL . S_LEFT_ARROW S_OPEN_BRACKET
+    S_LEFT_ARROW    shift and go to state 6
+
+
+state 4
+
+    (3) rawExpr -> S_OPEN_BRACKET . S_RIGHT_ARROW G_NUM_LITERAL
+    S_RIGHT_ARROW   shift and go to state 7
+
+
+state 5
+
+    (1) rawExpr -> S_CLOSE_BRACKET S_RIGHT_ARROW . G_NUM_LITERAL
+    G_NUM_LITERAL   shift and go to state 8
+
+
+state 6
+
+    (2) rawExpr -> G_NUM_LITERAL S_LEFT_ARROW . S_CLOSE_BRACKET
+    (4) rawExpr -> G_NUM_LITERAL S_LEFT_ARROW . S_OPEN_BRACKET
+    S_CLOSE_BRACKET shift and go to state 9
+    S_OPEN_BRACKET  shift and go to state 10
+
+
+state 7
+
+    (3) rawExpr -> S_OPEN_BRACKET S_RIGHT_ARROW . G_NUM_LITERAL
+    G_NUM_LITERAL   shift and go to state 11
+
+
+state 8
+
+    (1) rawExpr -> S_CLOSE_BRACKET S_RIGHT_ARROW G_NUM_LITERAL .
+    $end            reduce using rule 1 (rawExpr -> S_CLOSE_BRACKET S_RIGHT_ARROW G_NUM_LITERAL .)
+
+
+state 9
+
+    (2) rawExpr -> G_NUM_LITERAL S_LEFT_ARROW S_CLOSE_BRACKET .
+    $end            reduce using rule 2 (rawExpr -> G_NUM_LITERAL S_LEFT_ARROW S_CLOSE_BRACKET .)
+
+
+state 10
+
+    (4) rawExpr -> G_NUM_LITERAL S_LEFT_ARROW S_OPEN_BRACKET .
+    $end            reduce using rule 4 (rawExpr -> G_NUM_LITERAL S_LEFT_ARROW S_OPEN_BRACKET .)
+
+
+state 11
+
+    (3) rawExpr -> S_OPEN_BRACKET S_RIGHT_ARROW G_NUM_LITERAL .
+    $end            reduce using rule 3 (rawExpr -> S_OPEN_BRACKET S_RIGHT_ARROW G_NUM_LITERAL .)

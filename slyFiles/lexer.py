@@ -65,6 +65,8 @@ class s_Lexer(Lexer): # Select lexer
         S_LEFT_ARROW,
         S_RIGHT_ARROW,
 
+        W_UNDERSCORE,
+
         # Global Commands
         G_STAR,
         G_STRING_LITERAL,
@@ -86,6 +88,8 @@ class s_Lexer(Lexer): # Select lexer
     S_CLOSE_BRACKET = SSyntax.closeBracket.regex
     S_LEFT_ARROW = SSyntax.leftArrow.regex
     S_RIGHT_ARROW = SSyntax.rightArrow.regex
+
+    W_UNDERSCORE = WSyntax.underscore.regex
 
 
     ignore = r" \t"

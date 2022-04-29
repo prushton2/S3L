@@ -7,51 +7,36 @@ class s_Parser(Parser):
     tokens = lexer.s_Lexer.tokens
 
     def __init__(self):
-        self.selectedCharacters = []
-        self.leftOutside = 0  #x<[] // Where x is the value stored in the variable
-        self.rightOutside = 0 #[]>x
-        self.leftInside = 0   #[>x] // -1 means that there was a * placed inside the brackets
-        self.rightInside = 0  #[x<]
+        self.leftOutside = 0   #x<[] // Where x is the value stored in the variable
+        self.rightOutside = 0  #[]>x
+        self.leftInside = -1   #[>x] // -1 means that there was a * placed inside the brackets
+        self.rightInside = -1  #[x<]
     
     debugfile = "parser.out"
 
-    # precedence = (
-    #     ('left', 'G_NUM_LITERAL'),
-    #     ('left', 'S_OPEN_BRACKET'),
-    #     ('right', 'S_CLOSE_BRACKET'),
-    # )
-
-    @_('S_OPEN_BRACKET')
-    def openBracket(self, p):
+    @_('G_NUM_LITERAL S_LEFT_ARROW S_OPEN_BRACKET')
+    def rawExpr(self, p):
+        print(f"Left Oustide: {p.G_NUM_LITERAL}")
+        self.leftOutside = int(p.G_NUM_LITERAL)
         return p.S_OPEN_BRACKET
-    
-    @_('S_CLOSE_BRACKET')
-    def closeBracket(self, p):
+
+    @_('S_OPEN_BRACKET S_RIGHT_ARROW G_NUM_LITERAL')
+    def rawExpr(self, p):
+        print(f"Left Inside: {p.G_NUM_LITERAL}")
+        self.leftInside = int(p.G_NUM_LITERAL)
+        return p.S_OPEN_BRACKET
+
+    @_('G_NUM_LITERAL S_LEFT_ARROW S_CLOSE_BRACKET')
+    def rawExpr(self, p):
+        print(f"Right Inside: {p.G_NUM_LITERAL}")
+        self.rightInside = int(p.G_NUM_LITERAL)
         return p.S_CLOSE_BRACKET
 
-    # @_('openBracket')
-    # def openBracket(self, p):
-    #     return p.openBracket
-    
-    # @_('closeBracket')
-    # def closeBracket(self, p):
-    #     return p.closeBracket
-
-    # @_('rawExpr S_LEFT_ARROW S_OPEN_BRACKET')
-    # def rawExpr(self, p):
-    #     self.leftOutside = int(p.rawExpr)
-    #     # return p.openBracket
-
-    # @_('rawExpr S_LEFT_ARROW S_CLOSE_BRACKET')
-    # def rawExpr(self, p):
-    #     self.leftInside = int(p.rawExpr)
-    #     # return p.closeBracket
-
-    # @_('G_NUM_LITERAL')
-    # def rawExpr(self, p):
-    #     return int(p.G_NUM_LITERAL)
-
-
+    @_('S_CLOSE_BRACKET S_RIGHT_ARROW G_NUM_LITERAL')
+    def rawExpr(self, p):
+        print(f"Right Outside: {p.G_NUM_LITERAL}")
+        self.rightOutside = int(p.G_NUM_LITERAL)
+        return p.S_CLOSE_BRACKET
 class w_Parser(Parser): 
     # This needs to be reworked. I parse everything here, and create a list of objects later. I can absolutely merge these
     # two functions into just the parser. This is going to reduce bugs and make it easier to read.

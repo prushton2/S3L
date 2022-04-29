@@ -22,6 +22,9 @@ def splitStatement(tokens):
         if(token.type[0] == "B"):
             mostRecentBaseTokenName = token.type
         else:
+            if(mostRecentBaseTokenName == "B_SELECT"):
+                if(token.type == "S_OPEN_BRACKET" or token.type == "S_CLOSE_BRACKET"):
+                    statementStrings["B_SELECT"] += token.value+"_"
             statementStrings[mostRecentBaseTokenName] += (token.value)
 
     statementStrings = {
@@ -52,6 +55,11 @@ def interpret(text):
     # whereTokens = w_lexer.tokenize(statements["B_WHERE"])
     # fromTokens = f_lexer.tokenize(statements["B_FROM"])
 
+    for i in selectTokens:
+        print(i)
+
+    selectTokens = s_lexer.tokenize(statements["B_SELECT"])
+
 
     selectParse = s_parser.parse(selectTokens)
     # whereParse = w_parser.parse(whereTokens)
@@ -60,10 +68,7 @@ def interpret(text):
     print(f"Parsed select clause: |{selectParse}|")
     # print(f"Parsed where clause: |{whereParse}|")
     # print(f"Parsed from clause: |{fromParse}|")
-    print(f"leftOutside: {s_parser.leftOutside}")
-    print(f"leftInside: {s_parser.leftInside}")
-    print(f"rightOutside: {s_parser.rightOutside}")
-    print(f"rightInside: {s_parser.rightInside}")
+    print(f"{s_parser.leftOutside}<[>{s_parser.leftInside}_{s_parser.rightInside}<]>{s_parser.rightOutside}")
     # selection = selector.getMatchingIndices(whereParse, fromParse, w_parser.objects) #get indexes where the where clause matches the string
     # print(f"Selection: {selection}")
 

@@ -13,7 +13,7 @@ A readable Regex alternative that uses SQL like syntax to select text from a str
 
 ## Simple Examples
 ```
-> Select [*] where str == ”l” from “Hello World”;
+> Select [_] where str == ”l” from “Hello World”;
 ```
 \> He```ll```o Wor```l```d
 ```
@@ -21,7 +21,7 @@ A readable Regex alternative that uses SQL like syntax to select text from a str
 ```
 \> ```Hello``` World
 ```
-> Select [*] where str == “Hello” from “Hello World”;
+> Select [_] where str == “Hello” from “Hello World”;
 ```
 \> ```Hello``` World
 
@@ -37,24 +37,20 @@ A readable Regex alternative that uses SQL like syntax to select text from a str
 
 The interpreter iterates over every character and check every condition. When a character matches the where clause, the interpreter returns what is specified in the select clause.
 
-## Definitions:
-* currentChar
-  * The current iterated character
-
 ## Keywords: 
 #### Keywords act differently depending on whether they are used in select or where
 * Select: //going to rework
-  * Word:
-    * Entire word when a where clause is true
-  * \*
-    * Selects everything inside a range
-  * [ ]
-    * denotes the region selected by the where clause, where the left bracket is the opening and the right bracket is the end. Characters can be inserted inside the brackets
+  * [ _ ]
+    * Default select clause. Highlights all matching text
   * < >
-    * Used to extend the range of characters selected by the where clause. These can be put inside and outside of the brackets.
-    * Use ```3<[]``` to select 3 characters before every selection
-    * Use ```"e"<[]``` to select every character before the selection until it finds the e, inclusive.
-  
+    * Selection extender. Extends selection to the left or right of the edges of the matching text
+    * Example:
+      * ```select 3<[_]>4 ``` extends the selection range to 3 characters left of the highlighted text and 4 to the right
+        * Example: ```select 2<[_]>2 where "lo" from "Hello World" ``` -> H```ello W```orld
+      * ```select [>2_3<]``` extends the selection range inside the bounds by 2 characters to the right and 3 to the left
+        * Example: 
+        ```select [>2_2<] where "Hello" from "Hello World"  ``` -> ```He```l```lo``` world
+
 * Where:
   * str:
     * == comparison: Checks all characters after the current character if they match x, where x is a word.
