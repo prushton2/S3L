@@ -90,5 +90,13 @@ The interpreter iterates over every character and check every condition. When a 
 > select [_]>3 where "H";
 ```
 
+## Using the program
 
-
+the function ```interpret(str)``` in ```main.py``` converts the S3L statement into a S3Lexpression object. The object has the following methods:
+//Implemented
+* __str__: returns a string with underlined text as the selected text
+//Not implemented
+* match(): returns whether or not there is a selection in the string
+* matches(): returns the amount of matches in the string
+* getSelectedIndices(): returns a list with all the indices that are selected
+* replace(string replaceWith): replaces selected indices with given string

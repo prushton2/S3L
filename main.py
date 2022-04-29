@@ -1,6 +1,7 @@
 import slyFiles.lexer as lexer
 import slyFiles.cparser as parser
 import selector as selector
+from S3Lexpression import S3LExpression as S3L
 
 # There is absolutely a better way to do this. I'm just not sure how to do it. Either way, im learning about lexers, gimme a break.
 
@@ -59,34 +60,20 @@ def interpret(text):
     whereParse = w_parser.parse(whereTokens)
     fromParse = f_parser.parse(fromTokens)
 
-    print(f"Parsed select clause: |{selectParse}|")
-    print(f"Parsed where clause: |{whereParse}|")
-    print(f"Parsed from clause: |{fromParse}|")
     extensionArray = [s_parser.leftOutside, s_parser.leftInside, s_parser.rightInside, s_parser.rightOutside]
-    print(f"{s_parser.leftOutside}<[>{s_parser.leftInside}_{s_parser.rightInside}<]>{s_parser.rightOutside}")
     
     selection = selector.getMatchingIndices(whereParse, fromParse, w_parser.objects) #get indexes where the where clause matches the string
-    print(f"Selection: {selection}")
 
     extension = selector.extendMatchingIndices(extensionArray, selection)
-    print(f"Extension: {extension}")
-
-    for index, char in enumerate(fromParse):
-        printed = False
-
-        for eIndex, eChar in enumerate(extension):
-            if(eChar[0] <= index <= eChar[1]):
-                if(not printed):
-                    print('\033[4m' + char + '\033[0m', end='')
-                    printed = True
-
-        if(not printed):
-            print(char, end='')
-    print("")
+    return S3L(selectParse, fromParse, whereParse, extension)
+    
 
 def main():
     while True:
-        interpret(input(">"))
+        s3l = interpret(input(">"))
+        print(s3l)
+        
+
 
 if __name__ == "__main__":
     main()

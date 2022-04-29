@@ -12,8 +12,6 @@ class s_Parser(Parser):
         self.leftInside = -1   #[>x] // -1 means that there was a * placed inside the brackets
         self.rightInside = -1  #[x<]
     
-    debugfile = "parser.out"
-
     @_('G_NUM_LITERAL S_LEFT_ARROW S_OPEN_BRACKET')
     def rawExpr(self, p):
         print(f"Left Oustide: {p.G_NUM_LITERAL}")
