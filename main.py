@@ -52,25 +52,37 @@ def interpret(text):
     print(statements)
 
     selectTokens = s_lexer.tokenize(statements["B_SELECT"])
-    # whereTokens = w_lexer.tokenize(statements["B_WHERE"])
-    # fromTokens = f_lexer.tokenize(statements["B_FROM"])
-
-    for i in selectTokens:
-        print(i)
-
-    selectTokens = s_lexer.tokenize(statements["B_SELECT"])
-
+    whereTokens = w_lexer.tokenize(statements["B_WHERE"])
+    fromTokens = f_lexer.tokenize(statements["B_FROM"])
 
     selectParse = s_parser.parse(selectTokens)
-    # whereParse = w_parser.parse(whereTokens)
-    # fromParse = f_parser.parse(fromTokens)
+    whereParse = w_parser.parse(whereTokens)
+    fromParse = f_parser.parse(fromTokens)
 
     print(f"Parsed select clause: |{selectParse}|")
-    # print(f"Parsed where clause: |{whereParse}|")
-    # print(f"Parsed from clause: |{fromParse}|")
+    print(f"Parsed where clause: |{whereParse}|")
+    print(f"Parsed from clause: |{fromParse}|")
+    extensionArray = [s_parser.leftOutside, s_parser.leftInside, s_parser.rightInside, s_parser.rightOutside]
     print(f"{s_parser.leftOutside}<[>{s_parser.leftInside}_{s_parser.rightInside}<]>{s_parser.rightOutside}")
-    # selection = selector.getMatchingIndices(whereParse, fromParse, w_parser.objects) #get indexes where the where clause matches the string
-    # print(f"Selection: {selection}")
+    
+    selection = selector.getMatchingIndices(whereParse, fromParse, w_parser.objects) #get indexes where the where clause matches the string
+    print(f"Selection: {selection}")
+
+    extension = selector.extendMatchingIndices(extensionArray, selection)
+    print(f"Extension: {extension}")
+
+    for index, char in enumerate(fromParse):
+        printed = False
+
+        for eIndex, eChar in enumerate(extension):
+            if(eChar[0] <= index <= eChar[1]):
+                if(not printed):
+                    print('\033[4m' + char + '\033[0m', end='')
+                    printed = True
+
+        if(not printed):
+            print(char, end='')
+    print("")
 
 def main():
     while True:

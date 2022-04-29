@@ -39,3 +39,34 @@ def getMatchingIndices(whereString, fromString, objectList):
     matchingIndices.sort()
 
     return matchingIndices
+
+def extendMatchingIndices(extensionArray, matchingIndices):
+    #make it into a 2d array where i[x][0] is the start and i[x][1] is the end
+    newMatchingIndices = []
+    for index, item in enumerate(matchingIndices):
+        if(index == 0):
+            newMatchingIndices.append([item, None])
+            continue
+        if(item > matchingIndices[index-1]+1 and index != 0):
+            newMatchingIndices[-1][1] = matchingIndices[index-1]
+            newMatchingIndices.append([item, None])
+            continue
+
+    newMatchingIndices[-1][1] = matchingIndices[-1]
+
+    matchingIndices = newMatchingIndices
+    extendedSelection = []
+    #extend the matching indices
+    for index, item in enumerate(matchingIndices):
+        leftBound = item[0] - extensionArray[0]
+        rightBound = item[1] + extensionArray[3]
+
+        innerLeftBound = rightBound if extensionArray[1] == -1 else item[0] + extensionArray[0]
+        innerRightBound = leftBound if extensionArray[2] == -1 else item[1] - extensionArray[2]
+
+        extendedSelection.append([leftBound, innerLeftBound])
+        extendedSelection.append([innerRightBound, rightBound])
+
+
+    print(f"matchingIndices: {matchingIndices}")
+    return extendedSelection
